@@ -1,5 +1,5 @@
 <?php
-namespace Verint\EFMBundle;
+namespace Verint\FeedbackBundle;
 
 /**
  * Verint API

@@ -1,6 +1,6 @@
 <?php
 
-namespace Verint\EFMBundle\DependencyInjection;
+namespace Verint\FeedbackBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

@@ -1,5 +1,5 @@
 {
-    "name": "verint/EFMbundle",
+    "name": "verint/enterprise-feedback-bundle",
     "type": "symfony-bundle",
     "description": "Symfony Bundle for Verint Enterprise Feedback Management",
     "keywords": ["Verint", "Vovici", "EFM", "Survey", "Feedback"],
@@ -16,7 +16,7 @@
         "symfony/symfony": ">=2.7"
     },
     "autoload": {
-        "psr-0": { "Verint\\EFMBundle": "" }
+        "psr-0": { "Verint\\FeedbackBundle": "" }
     },
-    "target-dir": "Verint/EFMBundle"
+    "target-dir": "Verint/FeedbackBundle"
 }

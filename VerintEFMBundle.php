@@ -1,6 +1,6 @@
 <?php
 
-namespace Verint\EFMBundle;
+namespace Verint\FeedbackBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
