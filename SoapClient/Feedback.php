@@ -534,7 +534,7 @@ class Feedback {
 	public function getReportDataMap($surveyid = null)
 	{
 		$ep = array('projectId' => $surveyid);
-		$dm = $this->vovici->request('GetReportDataMap', $ep);
+		$dm = $this->request('GetReportDataMap', $ep);
 		return $dm->any;
 	}
 	
@@ -560,7 +560,7 @@ class Feedback {
 		$xmlattr = array();
 		$result  = array();
 		
-		$data = $this->vovici->request('GetSurveyDataEx',$o);
+		$data = $this->request('GetSurveyDataEx',$o);
 		
 		$xml = new \SimpleXMLElement($data->any);
 		if (!isset($xml->NewDataSet)){
@@ -570,7 +570,7 @@ class Feedback {
 		unset($data);
 		
 		foreach ($xml->NewDataSet->Table1 as $record) {
-			$xmlattr  = $this->vovici->XMLToArray($record);
+			$xmlattr  = $this->XMLToArray($record);
 			$result[] = $xmlattr;
 		}
 		/* unset $xml array for better garbage collection */
