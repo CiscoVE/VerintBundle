@@ -21,7 +21,7 @@ class Configuration implements ConfigurationInterface
         $node = $treeBuilder->root('verint');
         
         $node->children()
-        ->scalarNode( 'wdslurl' )->isRequired()->cannotBeEmpty()->end()
+        ->scalarNode( 'wsdlurl' )->isRequired()->cannotBeEmpty()->end()
         ->scalarNode( 'userid')->isRequired()->cannotBeEmpty()->end()
         ->scalarNode( 'password' )->isRequired()->cannotBeEmpty()->end();
         return $treeBuilder;

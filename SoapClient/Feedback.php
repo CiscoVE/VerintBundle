@@ -26,7 +26,7 @@ class Feedback {
 		$this->configuration = $configuration;
 		$this->em            = $em;
 		
-		$this->wsdlurl  = $this->configuration['wdslurl'];
+		$this->wsdlurl  = $this->configuration['wsdlurl'];
 		$this->username = $this->configuration['userid'];
 		$this->password = $this->configuration['password'];
 		
