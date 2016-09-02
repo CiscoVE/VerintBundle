@@ -16,7 +16,7 @@ class XMLToArray {
 				$values = (array) $value->children();
 	
 				if (count($values) > 0) {
-					$return[$element] = $this->XMLToArray($value);
+					$return[$element] = $this->getArray($value);
 				} else {
 					if (!isset($return[$element])) {
 						$return[$element] = (string) $value;
