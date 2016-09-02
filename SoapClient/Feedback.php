@@ -1,8 +1,6 @@
 <?php
 namespace Verint\FeedbackBundle\SoapClient;
 
-
-use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Doctrine\ORM\EntityManager;
 /**
  * Verint API
@@ -112,7 +110,9 @@ class Feedback {
 	 * @return xml
 	 */
 	public function request($func, $options) {
+		
 		ini_set('max_execution_time', 0);
+		
 		$this->soap = new \SoapClient($this->wsdlurl, array(
 				'cache_wsdl' => 1,
 				'encoding'   => 'utf-8' ));
@@ -315,7 +315,16 @@ class Feedback {
 		foreach ($xml as $field) {
 			$result[(string) $field['id']] = (string) $field['type'];
 		}
-		return $result;
+		
+		$columnStandard = array(
+				"started"       => "Varchar",
+				"completed"     => "Varchar",
+				"modified"      => "Varchar",
+				"branched_out"  => "Varchar"
+		
+		);
+		
+		return array_merge($result,$columnStandard);
 	}
 
 	/**
@@ -421,9 +430,9 @@ class Feedback {
 				$recordCount = $last_iteration;
 			}
 			$o = array(
-					'projectId' => $pid,
-					'recordCount' => $recordCount,
-					'surveyStatus' => $status ? $status : 'Any',
+					'projectId' 	=> $pid,
+					'recordCount' 	=> $recordCount,
+					'surveyStatus' 	=> $status ? $status : 'Any',
 					'startRecordId' => $startRecordId);
 			$data = $this->request('GetParticipantDataPaged', $o);
 			try {
@@ -440,11 +449,11 @@ class Feedback {
 				$record = (string) $attr['recordid'];
 				/* store the recordid */
 				$records[$record] = array(
-						'key1' => (string) $attr['user_key1'],
-						'email' => (string) $attr['email'],
-						'status' => (int) $attr['invite_status'],
+						'key1' 		=> (string) $attr['user_key1'],
+						'email' 	=> (string) $attr['email'],
+						'status' 	=> (int) $attr['invite_status'],
 						'completed' => ($attr['completed'] != "") ? 1 : 0,
-						'culture' => (string) $attr['culture']
+						'culture' 	=> (string) $attr['culture']
 				);
 
 				$startRecordId = $record;
@@ -515,6 +524,58 @@ class Feedback {
 		$result["branchedout"]  = (string)$xml[0]["branched_out"];
 		$result["email"]        = (string)$xml[0]["email"];
 
+		return $result;
+	}
+	
+	/* Get the Survey Data Map, which returns the field to value mappings.
+	 * This can be used to export Survey Data Values instead of Raw values
+	 * when calling functions such as GetSurveyDataEx, by adding option 'dataMapXml' => resultOfThisFunction 
+	 */
+	public function getReportDataMap($surveyid = null)
+	{
+		$ep = array('projectId' => $surveyid);
+		$dm = $this->vovici->request('GetReportDataMap', $ep);
+		return $dm->any;
+	}
+	
+	/* Return an array of data containing each field with it's result for each respondant of the survey */
+	public function getSurveyDataArray($surveyid = null, $reportvalues = false,$startdate = null, $enddate = null, $completed = false)
+	{
+		$o = array();
+			$o['projectId'] 	= $surveyid;
+			$o['completedOnly'] = false;
+		if (true === $reportvalues){
+			$o['dataMapXml'] = $this->getReportDataMap($surveyid);
+		}
+		if (null !== $startdate){
+			$o['startTime'] = $startdate;
+		}
+		if (null !== $enddate){
+			$o['endTime'] = $enddate;
+		}
+		if (true === $completed){
+			$o['completedOnly'] = true;
+		}
+
+		$xmlattr = array();
+		$result  = array();
+		
+		$data = $this->vovici->request('GetSurveyDataEx',$o);
+		
+		$xml = new \SimpleXMLElement($data->any);
+		if (!isset($xml->NewDataSet)){
+			return false;
+		}
+		/* unset $data array for better garbage collection and memory management */
+		unset($data);
+		
+		foreach ($xml->NewDataSet->Table1 as $record) {
+			$xmlattr  = $this->vovici->XMLToArray($record);
+			$result[] = $xmlattr;
+		}
+		/* unset $xml array for better garbage collection */
+		unset($xml);
+		
 		return $result;
 	}
 
