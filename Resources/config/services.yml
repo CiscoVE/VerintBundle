@@ -1,9 +1,9 @@
 parameters:
-    verint.efm.class:   Verint\SoapClient\EFM
+    verint.feedback.class:   Verint\SoapClient\Feedback
 
 services:
-    verint.efm:
-        class: '%verint.efm.class%'
+    verint.feedback:
+        class: '%verint.feedback.class%'
         arguments:
             - '%verint.efm.config%'
             - '@doctrine.orm.entity_manager'

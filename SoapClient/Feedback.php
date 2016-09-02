@@ -8,7 +8,7 @@ namespace Verint\FeedbackBundle;
  * @original author David Briggs - Adapted for Cisco Systems by Andrew Wolder (awolder@cisco.com)
  *
  */
-class EFM {
+class Feedback {
 
 	/**
 	 * @var apiurl
