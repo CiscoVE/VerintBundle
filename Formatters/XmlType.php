@@ -2,8 +2,8 @@
 namespace Verint\FeedbackBundle\Formatters;
 
 
-class XMLToArray {
-	
+class XmlType {
+
 	public function __construct( ){}
 
 	public static function getArray($xml) {
@@ -14,7 +14,7 @@ class XMLToArray {
 		foreach ($children as $element => $value) {
 			if ($value instanceof \SimpleXMLElement) {
 				$values = (array) $value->children();
-	
+
 				if (count($values) > 0) {
 					$return[$element] = $this->getArray($value);
 				} else {
@@ -37,6 +37,15 @@ class XMLToArray {
 		}
 	}
 	
-	
-	
+	public static function setSimpleXml($data)
+	{
+		$xml = new \SimpleXMLElement($data->any);
+		if (!isset($xml->NewDataSet)){
+			return false;
+		}
+		return $xml->NewDataSet->Table1;
+	}
+
+
+
 }

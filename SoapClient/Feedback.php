@@ -2,7 +2,7 @@
 namespace Verint\FeedbackBundle\SoapClient;
 
 use Doctrine\ORM\EntityManager;
-use Verint\FeedbackBundle\Formatters\XmltoArray;
+use Verint\FeedbackBundle\Formatters\XmlType;
 /**
  * Verint API
  *
@@ -562,17 +562,12 @@ class Feedback {
 		$result  = array();
 		
 		$data = $this->request('GetSurveyDataEx',$o);
-		
-		$xml = new \SimpleXMLElement($data->any);
-		if (!isset($xml->NewDataSet)){
-			return false;
-		}
-		/* unset $data array for better garbage collection and memory management */
+		$xml  = XmlType::setSimpleXml($data);
 		unset($data);
 		
-		foreach ($xml->NewDataSet->Table1 as $record) {
+		foreach ($xml as $record) {
 			
-			$xmlattr  = Verint\FeedbackBundle\Formatters\XMLToArray::getArray($record);
+			$xmlattr  = XmlType::getArray($record);
 			$result[] = $xmlattr;
 		}
 		/* unset $xml array for better garbage collection */
