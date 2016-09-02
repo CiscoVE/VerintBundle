@@ -2,6 +2,7 @@
 namespace Verint\FeedbackBundle\SoapClient;
 
 use Doctrine\ORM\EntityManager;
+use Verint\FeedbackBundle\Formatters\XmltoArray;
 /**
  * Verint API
  *
@@ -570,7 +571,8 @@ class Feedback {
 		unset($data);
 		
 		foreach ($xml->NewDataSet->Table1 as $record) {
-			$xmlattr  = $this->XMLToArray($record);
+			
+			$xmlattr  = Verint\FeedbackBundle\Formatters\XMLToArray::getArray($record);
 			$result[] = $xmlattr;
 		}
 		/* unset $xml array for better garbage collection */
