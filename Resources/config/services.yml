@@ -1,5 +1,5 @@
 parameters:
-    verint.feedback.class:   Verint\SoapClient\Feedback
+    verint.feedback.class:   Verint\FeedbackBundle\SoapClient\Feedback
 
 services:
     verint.feedback:
