@@ -1,6 +1,9 @@
 <?php
 namespace Verint\FeedbackBundle;
 
+
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Doctrine\ORM\EntityManager;
 /**
  * Verint API
  *
