@@ -1,5 +1,5 @@
 <?php
-namespace Verint\FeedbackBundle;
+namespace Verint\FeedbackBundle\SoapClient;
 
 
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
