@@ -1,0 +1,22 @@
+{
+    "name": "verint/EFMbundle",
+    "type": "symfony-bundle",
+    "description": "Symfony Bundle for Verint Enterprise Feedback Management",
+    "keywords": ["Verint", "Vovici", "EFM", "Survey", "Feedback"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrew Wolder",
+            "email": "awolder@cisco.com",
+            "homepage": "www.cisco.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.18",
+        "symfony/symfony": ">=2.7"
+    },
+    "autoload": {
+        "psr-0": { "Verint\\EFMBundle": "" }
+    },
+    "target-dir": "Verint/EFMBundle"
+}

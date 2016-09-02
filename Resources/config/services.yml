@@ -1,0 +1,9 @@
+parameters:
+    verint.efm.class:   Verint\SoapClient\EFM
+
+services:
+    verint.efm:
+        class: '%verint.efm.class%'
+        arguments:
+            - '%verint.efm.config%'
+            - '@doctrine.orm.entity_manager'
