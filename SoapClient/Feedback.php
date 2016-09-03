@@ -152,45 +152,6 @@ class Feedback {
 		return $this->request($method, $args);
 	}
 
-	/**
-	 * XMLToArray()
-	 *
-	 * Returns an array of the XML
-	 *
-	 * @access public
-	 * @param SimpleXMLElement
-	 * @return array
-	 */
-	public function XMLToArray($xml) {
-		if ($xml instanceof \SimpleXMLElement) {
-			$children = $xml->children();
-			$return = null;
-		}
-		foreach ($children as $element => $value) {
-			if ($value instanceof \SimpleXMLElement) {
-				$values = (array) $value->children();
-
-				if (count($values) > 0) {
-					$return[$element] = $this->XMLToArray($value);
-				} else {
-					if (!isset($return[$element])) {
-						$return[$element] = (string) $value;
-					} else {
-						if (!is_array($return[$element])) {
-							$return[$element] = array($return[$element], (string) $value);
-						} else {
-							$return[$element][] = (string) $value;
-						}
-					}
-				}
-			}
-		}
-		if (is_array($return)) {
-			return $return;
-		} else {
-			return false;
-		}
-	}
 
 	/**
 	 * getCompleteArray()
@@ -239,15 +200,12 @@ class Feedback {
 			 'completedOnly'  => false
 			 );
 			 */
-			$data = $this->request('GetSurveyDataPaged', $o);
-
-
-			$xml = new \SimpleXMLElement($data->any);
-			unset($data); // for quicker garbage collection
-			$xmlAsArray = $xml->NewDataSet;
-			unset($xml);
-			foreach ($xmlAsArray->Table1 as $record) {
-				$xmlattr = $this->XMLToArray($record);
+			$data = $this->request('GetSurveyDataPaged', $o);			
+			$xml  = XmlType::setSimpleXml($data);
+			unset($data);unset($xml);
+			
+			foreach ($xml as $record) {
+				$xmlattr = XmlType::getArray($record);
 				/* if $fields is an array, then we want to return each thing in the array */
 				if (is_array($fields)) {
 					$tempArray = array();
@@ -311,11 +269,8 @@ class Feedback {
 		if (!$data) {
 			return false;
 		}
-		/* parse the XML returned by request() */
-		$xml = new \SimpleXMLElement($data->any);
-		foreach ($xml as $field) {
-			$result[(string) $field['id']] = (string) $field['type'];
-		}
+		
+		$result = XmlType::setSimpleXmlFieldArray($data);
 		
 		$columnStandard = array(
 				"started"       => "Varchar",

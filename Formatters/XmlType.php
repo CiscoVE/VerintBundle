@@ -37,6 +37,16 @@ class XmlType {
 		}
 	}
 	
+	public static function setSimpleXmlFieldArray($data)
+	{
+		$xml = new \SimpleXMLElement($data->any);
+		foreach ($xml as $field) {
+			$result[(string) $field['id']] = (string) $field['type'];
+		}
+		
+		return $result;	
+	}
+	
 	public static function setSimpleXml($data)
 	{
 		$xml = new \SimpleXMLElement($data->any);
