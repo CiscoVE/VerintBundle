@@ -530,6 +530,37 @@ class Feedback {
 		
 		return $result;
 	}
+	
+	public function getSingleResultByKey1($surveyid = null, $reportvalues = false, $key1 = null)
+	{
+		$o = array();
+		$o['projectId'] 	= $surveyid;
+		$o['completedOnly'] = false;
+		if (true === $reportvalues){
+			$o['dataMapXml'] = $this->getReportDataMap($surveyid);
+		}
+		$filterxml = '<CriteriaCollection>
+        					<Criterion heading	= "user_key1"
+        						expression	= "="
+        						value		= "'.$key1.'" />
+    						</CriteriaCollection>';
+			
+		$o['filterXml'] 	= $filterxml;
+		
+		$data = $this->request('GetSurveyDataEx',$o);
+		$xml  = XmlType::setSimpleXml($data);
+		unset($data);
+		
+		foreach ($xml as $record) {
+				
+			$xmlattr  = XmlType::getArray($record);
+			$result[] = $xmlattr;
+		}
+		/* unset $xml array for better garbage collection */
+		unset($xml);
+		
+		return $result;
+	}
 
 	/* Used to decode special characters in XML Strings  */
 	function xml_entities($string) {
