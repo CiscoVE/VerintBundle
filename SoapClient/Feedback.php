@@ -551,10 +551,12 @@ class Feedback {
 		$xml  = XmlType::setSimpleXml($data);
 		unset($data);
 		
-		foreach ($xml as $record) {
-				
-			$xmlattr  = XmlType::getArray($record);
-			$result[] = $xmlattr;
+		if ($xml){
+			foreach ($xml as $record) {
+		
+				$xmlattr  = XmlType::getArray($record);
+				$result[] = $xmlattr;
+			}
 		}
 		/* unset $xml array for better garbage collection */
 		unset($xml);
