@@ -551,7 +551,7 @@ class Feedback {
 		}
 		
 		$filterxml = '<CriteriaCollection>
-        					<Criterion heading	= $keytype
+        					<Criterion heading	= "'.$keytype.'" 
         						expression	= "="
         						value		= "'.$key.'" />
     						</CriteriaCollection>';
