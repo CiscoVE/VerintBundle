@@ -531,7 +531,7 @@ class Feedback {
 		return $result;
 	}
 	
-	public function getSingleResultByKey($surveyid = null, $reportvalues = false, $keynum = 1, $key = null)
+	public function getSingleResultByKey($surveyid = null, $reportvalues = false, $keynum = "key1", $key = null)
 	{
 		$o = array();
 		$o['projectId'] 	= $surveyid;
@@ -539,23 +539,11 @@ class Feedback {
 		if (true === $reportvalues){
 			$o['dataMapXml'] = $this->getReportDataMap($surveyid);
 		}
-		
-		$keytype = "";
-		if ($keynum == 1)
-		{
-			$keytype = "user_key1";
-		} else if ($keynum == 2){
-			$keytype = "user_key2";
-		} else if ($keynum == 2){
-			$keytype = "user_key3";
-		}
-		
+	
 		$filterxml = '<CriteriaCollection>
-        					<Criterion heading	= "'.$keytype.'" 
-        						expression	= "="
-        						value		= "'.$key.'" />
-    						</CriteriaCollection>';
-			
+						<Criterion heading = "user_' . $keynum.'" expression = "="  value = "'.$key.'" />
+    				  </CriteriaCollection>';
+		echo $filterxml;
 		$o['filterXml'] 	= $filterxml;
 	
 		$data = $this->request('GetSurveyDataEx',$o);
