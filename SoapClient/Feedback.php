@@ -543,7 +543,6 @@ class Feedback {
 		$filterxml = '<CriteriaCollection>
 						<Criterion heading = "user_' . $keynum.'" expression = "="  value = "'.$key.'" />
     				  </CriteriaCollection>';
-		echo $filterxml;
 		$o['filterXml'] 	= $filterxml;
 	
 		$data = $this->request('GetSurveyDataEx',$o);
