@@ -16,7 +16,7 @@ class XmlType {
 				$values = (array) $value->children();
 
 				if (count($values) > 0) {
-					$return[$element] = $this->getArray($value);
+					$return[$element] = XmlType::getArray($value);
 				} else {
 					if (!isset($return[$element])) {
 						$return[$element] = (string) $value;
@@ -36,17 +36,17 @@ class XmlType {
 			return false;
 		}
 	}
-	
+
 	public static function setSimpleXmlFieldArray($data)
 	{
+		$result = array();
 		$xml = new \SimpleXMLElement($data->any);
 		foreach ($xml as $field) {
 			$result[(string) $field['id']] = (string) $field['type'];
 		}
-		
-		return $result;	
+		return $result;
 	}
-	
+
 	public static function setSimpleXml($data)
 	{
 		$xml = new \SimpleXMLElement($data->any);
@@ -54,6 +54,17 @@ class XmlType {
 			return false;
 		}
 		return $xml->NewDataSet->Table1;
+	}
+
+	public static function getXmlAttributes($object)
+	{
+		$result = array();
+		foreach ($object as $key => $value)
+		{
+			$result[$key] = (string)$value;
+		}
+
+		return $result;
 	}
 
 

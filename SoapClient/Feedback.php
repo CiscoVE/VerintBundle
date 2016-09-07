@@ -531,7 +531,7 @@ class Feedback {
 		return $result;
 	}
 	
-	public function getSingleResultByKey1($surveyid = null, $reportvalues = false, $key1 = null)
+	public function getSingleResultByKey($surveyid = null, $reportvalues = false, $keynum = 1, $key = null)
 	{
 		$o = array();
 		$o['projectId'] 	= $surveyid;
@@ -539,29 +539,57 @@ class Feedback {
 		if (true === $reportvalues){
 			$o['dataMapXml'] = $this->getReportDataMap($surveyid);
 		}
+		
+		$keytype = "";
+		if ($keynum == 1)
+		{
+			$keytype = "user_key1";
+		} else if ($keynum == 2){
+			$keytype = "user_key2";
+		} else if ($keynum == 2){
+			$keytype = "user_key3";
+		}
+		
 		$filterxml = '<CriteriaCollection>
-        					<Criterion heading	= "user_key1"
+        					<Criterion heading	= $keytype
         						expression	= "="
-        						value		= "'.$key1.'" />
+        						value		= "'.$key.'" />
     						</CriteriaCollection>';
 			
 		$o['filterXml'] 	= $filterxml;
-		
+	
 		$data = $this->request('GetSurveyDataEx',$o);
 		$xml  = XmlType::setSimpleXml($data);
 		unset($data);
-		
+		$result = array();
+	
 		if ($xml){
 			foreach ($xml as $record) {
-		
+	
 				$xmlattr  = XmlType::getArray($record);
 				$result[] = $xmlattr;
 			}
 		}
 		/* unset $xml array for better garbage collection */
 		unset($xml);
-		
+	
 		return $result;
+	}
+	
+	public function getParticipantInfoByRecordId($surveyid = null, $recordId = null)
+	{
+		$o = array();
+		$o['projectId'] = $surveyid;
+		$o['recordId']  = $recordId;
+	
+	
+		$data = $this->request('GetParticipantInformation',$o);
+		$xml  = new \SimpleXMLElement($data->any);
+		if ($xml instanceof \SimpleXMLElement) {
+			$children = $xml->attributes();
+		}
+		XmlType::getXmlAttributes($children);
+		return XmlType::getXmlAttributes($children);
 	}
 
 	/* Used to decode special characters in XML Strings  */
