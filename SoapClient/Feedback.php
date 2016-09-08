@@ -123,13 +123,16 @@ class Feedback {
 		} catch (\SoapFault $e) {
 			return array("error" => $e->faultstring);
 		}
-
+        
 		/* Set Preload Data does not have a result key. Just return the $result object. */
 		if ($func == "SendInvitations"){
 			return $response;
+		} else if ($func == "FindParticipantRecord"){
+			return (string)$response->FindParticipantRecordResult;
 		} else {
 			$r = $func . 'Result';
 		}
+		
 
 		if (!$response) {
 			return false;
