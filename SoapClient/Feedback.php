@@ -596,4 +596,10 @@ class Feedback {
 				);
 	}
 
+    public function findParticipantRecord($pid,$email,$key)
+	{
+		$o = array("projectId" => $pid,"emailAddress" => $email, "key1" => $key);
+		return $this->request('FindParticipantRecord',$o);
+	}
+
 }
