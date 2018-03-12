@@ -520,6 +520,7 @@ class Feedback {
 		$result  = array();
 		
 		$data = $this->request('GetSurveyDataEx',$o);
+		print_r($data);
 		$xml  = XmlType::setSimpleXml($data);
 		unset($data);
 		if (!array_key_exists("error",$data))
