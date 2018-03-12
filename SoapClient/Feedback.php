@@ -522,14 +522,19 @@ class Feedback {
 		$data = $this->request('GetSurveyDataEx',$o);
 		$xml  = XmlType::setSimpleXml($data);
 		unset($data);
+		if (!array_key_exists("error",$data))
+		{
+		  $xml  = XmlType::setSimpleXml($data);
+		  unset($data);
 		
-		foreach ($xml as $record) {
-			
-			$xmlattr  = XmlType::getArray($record);
-			$result[] = $xmlattr;
+        		foreach ($xml as $record) {
+        			
+        			$xmlattr  = XmlType::getArray($record);
+        			$result[] = $xmlattr;
+        		}
+		  /* unset $xml array for better garbage collection */
+		  unset($xml);
 		}
-		/* unset $xml array for better garbage collection */
-		unset($xml);
 		
 		return $result;
 	}
