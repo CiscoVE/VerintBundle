@@ -50,7 +50,7 @@ class XmlType {
 	public static function setSimpleXml($data)
 	{
 		$xml = new \SimpleXMLElement($data->any);
-		if (!isset($xml->NewDataSet)){
+		if (!isset($xml->NewDataSet->Table1)){
 			return false;
 		}
 		return $xml->NewDataSet->Table1;
